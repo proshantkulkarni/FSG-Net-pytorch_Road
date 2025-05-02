@@ -150,6 +150,11 @@ class Trainer_seg:
         model.eval()
         f1_list = []
 
+        # Create debug folder if not exists
+        debug_dir = os.path.join("debug_vis", f"epoch_{epoch}")
+        os.makedirs(debug_dir, exist_ok=True)
+
+        
         with torch.no_grad():
             for batch_idx, (x_in, target) in enumerate(self.loader_val.Loader):
                 x_in, _ = x_in
@@ -164,25 +169,27 @@ class Trainer_seg:
 
                 output_argmax = torch.where(output > 0.5, 1, 0).cpu()
                     # Save or view a few predictions
-                if batch_idx < 3:  # Just visualize first 3 samples
+                if batch_idx < 3:
                     pred_mask = output_argmax[0, 0].numpy()
                     true_mask = target[0, 0].cpu().numpy()
 
-                    print(f"Batch {batch_idx} — pred unique:", np.unique(pred_mask))
-                    print(f"Batch {batch_idx} — label unique:", np.unique(true_mask))
+                    print(f"[DEBUG] Batch {batch_idx} — pred unique:", np.unique(pred_mask))
+                    print(f"[DEBUG] Batch {batch_idx} — label unique:", np.unique(true_mask))
 
-                    plt.figure(figsize=(10, 4))
-                    plt.subplot(1, 2, 1)
-                    plt.title("Predicted Mask")
-                    plt.imshow(pred_mask, cmap='gray')
+                    fig, axs = plt.subplots(1, 2, figsize=(10, 4))
+                    axs[0].imshow(pred_mask, cmap='gray')
+                    axs[0].set_title("Predicted Mask")
+                    axs[0].axis('off')
 
-                    plt.subplot(1, 2, 2)
-                    plt.title("Ground Truth")
-                    plt.imshow(true_mask, cmap='gray')
+                    axs[1].imshow(true_mask, cmap='gray')
+                    axs[1].set_title("Ground Truth")
+                    axs[1].axis('off')
 
-                    plt.tight_layout()
-                    plt.savefig(f"val_debug_epoch{epoch}_batch{batch_idx}.png")  # or plt.show()
+                    fig.tight_layout()
+                    save_path = os.path.join(debug_dir, f"val_batch{batch_idx}.png")
+                    plt.savefig(save_path)
                     plt.close()
+
 
                 metric_result = metrics.metrics_np(output_argmax[:, 0], target.squeeze(0).detach().cpu().numpy(), b_auc=False)
                 f1_list.append(metric_result['f1'])
