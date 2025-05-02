@@ -18,7 +18,8 @@
     n_classes: 1,
     in_channels: 4, # 3 for RGB, 4 for RGBA
   dataloader: 'Image2Image_zero_pad',
-  criterion: 'DiceBCELoss', # DiceBCELoss
+  # criterion: 'DiceBCELoss',
+  criterion: 'BCEWithLogitsLoss', # DiceBCELoss
   task: 'segmentation',
   input_space: 'RGB',
   input_channel: 4,  # 3 for RGB, 4 for RGBA
@@ -32,17 +33,17 @@
   batch_size: 4,
   epoch: 500,
   ema_decay: 0, # set 0 to deactivate
-  class_weight: [1.0, 1.0],
+  class_weight: [0.2, 0.8],
   model_path: '', # pretrained/FSG-Net-DRIVE.pt
     freeze_layer: false,
 
   ### Augmentation Parameters
-  transform_blur: true,
-  transform_jitter: true,
+  transform_blur: false,
+  transform_jitter: false,
   transform_hflip: true,
-  transform_perspective: true,
-  transform_cutmix: true,
-  transform_rand_resize: true,
+  transform_perspective: false,
+  transform_cutmix: false,
+  transform_rand_resize: false,
   transform_rand_crop: 288,
 
   train_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/train/input',
