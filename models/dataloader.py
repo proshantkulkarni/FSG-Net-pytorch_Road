@@ -93,8 +93,8 @@ class Image2ImageLoader_resize(Dataset):
         for index in range(len(self.img_x_path)):
             x_path = self.img_x_path[index]
             y_path = self.img_y_path[index]
-            self.img_x.append(Image.open(x_path).convert('RGB'))
-            # self.img_x.append(Image.open(x_path).convert('RGBA'))
+            # self.img_x.append(Image.open(x_path).convert('RGB'))
+            self.img_x.append(Image.open(x_path).convert('RGBA'))
             self.img_y.append(Image.open(y_path).convert('L'))
 
     def transform(self, image, target):
@@ -158,9 +158,10 @@ class Image2ImageLoader_resize(Dataset):
 
         # 'mean' and 'std' are acquired by cropped face from sense-time landmark
         if self.args.input_space == 'RGB':
-            image_tensor = tf.normalize(image_tensor,
-                                        mean=self.image_mean,
-                                        std=self.image_std)
+            image_tensor = image_tensor / 255.0
+            # image_tensor = tf.normalize(image_tensor,
+            #                             mean=self.image_mean,
+            #                             std=self.image_std)
 
         if self.args.n_classes <= 2:  # for visualized binary GT
             target_tensor[target_tensor < 128] = 0
@@ -216,8 +217,8 @@ class Image2ImageLoader_zero_pad(Dataset):
         for index in range(len(self.img_x_path)):
             x_path = self.img_x_path[index]
             y_path = self.img_y_path[index]
-            self.img_x.append(Image.open(x_path).convert('RGB'))
-            # self.img_x.append(Image.open(x_path).convert('RGBA'))
+            # self.img_x.append(Image.open(x_path).convert('RGB'))
+            self.img_x.append(Image.open(x_path).convert('RGBA'))
 
             self.img_y.append(Image.open(y_path).convert('L'))
 
@@ -281,9 +282,10 @@ class Image2ImageLoader_zero_pad(Dataset):
 
         # 'mean' and 'std' are acquired by cropped face from sense-time landmark
         if self.args.input_space == 'RGB':
-            image_tensor = tf.normalize(image_tensor,
-                                        mean=self.image_mean,
-                                        std=self.image_std)
+            image_tensor = image_tensor / 255.0
+            # image_tensor = tf.normalize(image_tensor,
+            #                             mean=self.image_mean,
+            #                             std=self.image_std)
 
         if self.args.n_classes <= 2:  # for visualized binary GT
             target_tensor[target_tensor < 128] = 0
