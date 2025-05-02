@@ -108,8 +108,11 @@ class Image2ImageLoader_resize(Dataset):
 
             if (random_gen.random() < 0.8) and self.args.transform_cutmix:
                 rand_n = random_gen.randint(0, self.__len__() - 1)     # randomly generates reference image on dataset
-                image_refer = Image.open(self.img_x_path[rand_n]).convert('RGB')
+                # image_refer = Image.open(self.img_x_path[rand_n]).convert('RGB')
+                image_refer = Image.open(self.img_x_path[rand_n]).convert('RGBA')
                 target_refer = Image.open(self.img_y_path[rand_n]).convert('L')
+                # target_refer = Image.open(self.img_y_path[rand_n]).convert('L')
+
                 image, target = utils.cut_mix(image, target, image_refer, target_refer)
 
             if (random_gen.random() < 0.8) and self.args.transform_rand_resize:
@@ -232,7 +235,8 @@ class Image2ImageLoader_zero_pad(Dataset):
 
             if (random_gen.random() < 0.8) and self.args.transform_cutmix:
                 rand_n = random_gen.randint(0, self.__len__() - 1)     # randomly generates reference image on dataset
-                image_refer = Image.open(self.img_x_path[rand_n]).convert('RGB')
+                # image_refer = Image.open(self.img_x_path[rand_n]).convert('RGB')
+                image_refer = Image.open(self.img_x_path[rand_n]).convert('RGBA')
                 target_refer = Image.open(self.img_y_path[rand_n]).convert('L')
                 image, target = utils.cut_mix(image, target, image_refer, target_refer)
 
