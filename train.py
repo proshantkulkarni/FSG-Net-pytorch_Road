@@ -44,10 +44,13 @@ class Trainer_seg:
                                                     self.args.train_y_path,
                                                     self.args.batch_size,
                                                     mode='train')
+        print(f"Number of training examples loaded: {len(self.loader_train.image_loader)}")
+
         self.loader_val = self.__init_data_loader(self.args.val_x_path,
                                                   self.args.val_y_path,
                                                   batch_size=1,
                                                   mode='validation')
+        print(f"Number of validation examples loaded: {len(self.loader_val.image_loader)}")
 
         self.model = self.init_model(self.args.model_name, self.device, self.args)
         self.optimizer = self.__init_optimizer(self.args.optimizer, self.model, self.args.lr)
