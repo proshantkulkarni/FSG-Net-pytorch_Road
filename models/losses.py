@@ -277,6 +277,16 @@ class BCELoss(nn.Module):
 
         return BCE
 
+class BCEWithLogitsLoss(nn.Module):
+    def __init__(self, pos_weight=torch.tensor([0.8])):
+        super(BCEWithLogitsLoss, self).__init__()
+        self.pos_weight = pos_weight  # default, override in forward()
+
+    def forward(self, input, target):
+        target = target.float()
+        loss = F.binary_cross_entropy_with_logits(input, target, pos_weight=self.pos_weight.to(input.device))
+        return loss
+
 
 class DiceLoss(nn.Module):
     def __init__(self, weight=None, size_average=True):

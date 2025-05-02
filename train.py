@@ -273,8 +273,17 @@ class Trainer_seg:
 
         return torch.nn.DataParallel(model)
 
+    # def __init_criterion(self, criterion_name):
+    #     criterion = getattr(loss_hub, criterion_name)().to(self.device)
+        
+    #     return criterion
+
     def __init_criterion(self, criterion_name):
-        criterion = getattr(loss_hub, criterion_name)().to(self.device)
+        if criterion_name == 'BCEWithLogitsLoss':
+            pos_weight = torch.tensor(self.args.class_weight[1])  # use foreground weight
+            criterion = loss_hub.BCEWithLogitsLoss(pos_weight=pos_weight).to(self.device)
+        else:
+            criterion = getattr(loss_hub, criterion_name)().to(self.device)
 
         return criterion
 
