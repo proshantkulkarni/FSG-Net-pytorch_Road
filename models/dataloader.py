@@ -94,6 +94,7 @@ class Image2ImageLoader_resize(Dataset):
             x_path = self.img_x_path[index]
             y_path = self.img_y_path[index]
             self.img_x.append(Image.open(x_path).convert('RGB'))
+            # self.img_x.append(Image.open(x_path).convert('RGBA'))
             self.img_y.append(Image.open(y_path).convert('L'))
 
     def transform(self, image, target):
@@ -216,6 +217,8 @@ class Image2ImageLoader_zero_pad(Dataset):
             x_path = self.img_x_path[index]
             y_path = self.img_y_path[index]
             self.img_x.append(Image.open(x_path).convert('RGB'))
+            # self.img_x.append(Image.open(x_path).convert('RGBA'))
+
             self.img_y.append(Image.open(y_path).convert('L'))
 
     def transform(self, image, target):
