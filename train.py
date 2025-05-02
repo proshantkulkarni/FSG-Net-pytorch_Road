@@ -5,7 +5,8 @@ import wandb
 import numpy as np
 import sys
 import math
-
+import matplotlib.pyplot as plt
+import torchvision.utils as vutils
 from models import dataloader as dataloader_hub
 from models import lr_scheduler
 from models import model_implements
@@ -159,6 +160,27 @@ class Trainer_seg:
                     output = output[0]
 
                 output_argmax = torch.where(output > 0.5, 1, 0).cpu()
+                    # Save or view a few predictions
+                if batch_idx < 3:  # Just visualize first 3 samples
+                    pred_mask = output_argmax[0, 0].numpy()
+                    true_mask = target[0, 0].cpu().numpy()
+
+                    print(f"Batch {batch_idx} — pred unique:", np.unique(pred_mask))
+                    print(f"Batch {batch_idx} — label unique:", np.unique(true_mask))
+
+                    plt.figure(figsize=(10, 4))
+                    plt.subplot(1, 2, 1)
+                    plt.title("Predicted Mask")
+                    plt.imshow(pred_mask, cmap='gray')
+
+                    plt.subplot(1, 2, 2)
+                    plt.title("Ground Truth")
+                    plt.imshow(true_mask, cmap='gray')
+
+                    plt.tight_layout()
+                    plt.savefig(f"val_debug_epoch{epoch}_batch{batch_idx}.png")  # or plt.show()
+                    plt.close()
+
                 metric_result = metrics.metrics_np(output_argmax[:, 0], target.squeeze(0).detach().cpu().numpy(), b_auc=False)
                 f1_list.append(metric_result['f1'])
 
