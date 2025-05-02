@@ -10,11 +10,11 @@
   save_interval: 1,
   saved_model_directory: 'model_ckpts',
   train_fold: 1,
-  project_name: 'FSG-Net',
+  project_name: 'U-NET',
   CUDA_VISIBLE_DEVICES: '0',
 
   ### Train Parameters
-  model_name: 'FSGNet',
+  model_name: 'Unet_part',
     n_classes: 1,
     in_channels: 4, # 3 for RGB, 4 for RGBA
   dataloader: 'Image2Image_zero_pad',
