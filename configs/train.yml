@@ -37,11 +37,11 @@
     freeze_layer: false,
 
   ### Augmentation Parameters
-  transform_blur: true,
+  transform_blur: false,
   transform_jitter: true,
   transform_hflip: true,
-  transform_perspective: true,
-  transform_cutmix: true,
+  transform_perspective: false,
+  transform_cutmix: false,
   transform_rand_resize: true,
   # transform_rand_crop: 288,
   transform_rand_crop: 600,
