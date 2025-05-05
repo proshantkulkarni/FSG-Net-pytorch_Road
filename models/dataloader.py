@@ -287,8 +287,8 @@ class Image2ImageLoader_zero_pad(Dataset):
                 target = tf.perspective(target, start_p, end_p, interpolation=InterpolationMode.NEAREST)
 
 
-        image = utils.center_padding(image, [600, 600])
-        target = utils.center_padding(target, [600, 600])
+        # image = utils.center_padding(image, [600, 600])
+        # target = utils.center_padding(target, [600, 600])
 
         image_tensor = tf.to_tensor(image)
         target_tensor = torch.tensor(np.array(target))

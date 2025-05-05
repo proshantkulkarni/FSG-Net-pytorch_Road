@@ -43,7 +43,9 @@
   transform_perspective: false,
   transform_cutmix: false,
   transform_rand_resize: false,
-  transform_rand_crop: 288,
+  # transform_rand_crop: 288,
+  transform_rand_crop: 150,
+
 
   train_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/train/input',
   train_y_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/train/label',
