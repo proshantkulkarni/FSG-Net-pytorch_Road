@@ -98,6 +98,8 @@ class Trainer_seg:
 
             x_in, _ = x_in
             target, _ = target
+            # _ , x_in = x_in
+            # _target, _  = target
             x_in = x_in.to(self.device)
             target = target.long().to(self.device)
 
