@@ -153,7 +153,7 @@ class Trainer_seg:
                 fig.tight_layout()
 
                 os.makedirs(debug_dir, exist_ok=True)
-                save_path = os.path.join(debug_dir, f"val_batch{batch_idx}_sample{i}.png")
+                save_path = os.path.join(debug_dir, f"Train_batch{batch_idx}_sample{i}.png")
                 plt.savefig(save_path)
                 plt.close()
 
