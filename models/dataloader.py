@@ -94,7 +94,8 @@ class Image2ImageLoader_resize(Dataset):
             x_path = self.img_x_path[index]
             y_path = self.img_y_path[index]
             # self.img_x.append(Image.open(x_path).convert('RGB'))
-            self.img_x.append(Image.open(x_path).convert('RGBA'))
+            # self.img_x.append(Image.open(x_path).convert('RGBA'))
+            self.img_x.append(Image.open(x_path).convert('L'))  # 1-channel grayscale
             self.img_y.append(Image.open(y_path).convert('L'))
 
     def transform(self, image, target):
@@ -193,8 +194,10 @@ class Image2ImageLoader_zero_pad(Dataset):
         self.mode = mode
         self.args = kwargs['args']
 
-        self.image_mean = [0.485, 0.456, 0.406]
-        self.image_std = [0.229, 0.224, 0.225]
+        # self.image_mean = [0.485, 0.456, 0.406]
+        # self.image_std = [0.229, 0.224, 0.225]
+        self.image_mean = [0.5, 0.5, 0.5, 0.5]
+        self.image_std = [0.5, 0.5, 0.5, 0.5]
 
         x_img_name = os.listdir(x_path)
         y_img_name = os.listdir(y_path)
@@ -221,8 +224,9 @@ class Image2ImageLoader_zero_pad(Dataset):
             x_path = self.img_x_path[index]
             y_path = self.img_y_path[index]
             # self.img_x.append(Image.open(x_path).convert('RGB'))
-            self.img_x.append(Image.open(x_path).convert('RGBA'))
+            # self.img_x.append(Image.open(x_path).convert('RGBA'))
 
+            self.img_x.append(Image.open(x_path).convert('L'))  # 1-channel grayscale
             self.img_y.append(Image.open(y_path).convert('L'))
 
     def transform(self, image, target):

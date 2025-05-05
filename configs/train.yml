@@ -16,14 +16,14 @@
   ### Train Parameters
   model_name: 'UNet',
     n_classes: 1,
-    in_channels: 4, # 3 for RGB, 4 for RGBA
+    in_channels: 1, # 3 for RGB, 4 for RGBA
   dataloader: 'Image2Image_zero_pad',
   # criterion: 'DiceBCELoss',
-  criterion: 'BCEWithLogitsLoss', # DiceBCELoss
+  criterion: 'DiceBCELoss', # DiceBCELoss
   task: 'segmentation',
-  input_space: 'RGB',
-  input_channel: 4,  # 3 for RGB, 4 for RGBA
-  input_size: [608, 608],  # [h, w] DRIVE:608, STARE:704, CHASE_DB1:1024, HRF:1344
+  input_space: 'L',
+  input_channel: 1,  # 3 for RGB, 4 for RGBA
+  input_size: [600, 600],  # [h, w] DRIVE:608, STARE:704, CHASE_DB1:1024, HRF:1344
   optimizer: 'AdamW',
     lr: 0.001,
     scheduler: 'WarmupCosine',  # ConstantLRSchedule, WarmupCosine
