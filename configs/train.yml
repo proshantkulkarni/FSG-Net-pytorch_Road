@@ -51,6 +51,11 @@
   val_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/val/input',
   val_y_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/val/label',
 
+  # train_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/train/input',
+  # train_y_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/train/label',
+  # val_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/val/input',
+  # val_y_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/data_fsr/val/label',
+
   # train_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/drive/train/input',
   # train_y_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/drive/train/label',
   # val_x_path: '/content/drive/MyDrive/Prashant/FSG/Road_Extraction/data/drive/val/input',
