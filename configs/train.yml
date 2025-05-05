@@ -15,7 +15,7 @@
 
   ### Train Parameters
   model_name: 'UNet',
-    n_classes: 1,
+    n_classes: 2,
     in_channels: 1, # 3 for RGB, 4 for RGBA
   dataloader: 'Image2Image_zero_pad',
   # criterion: 'DiceBCELoss',
@@ -33,8 +33,7 @@
   batch_size: 4,
   epoch: 500,
   ema_decay: 0, # set 0 to deactivate
-  class_weight: [0.2, 0.8],
-  model_path: '', # pretrained/FSG-Net-DRIVE.pt
+  class_weight: [1.0, 1.0], model_path: '', # pretrained/FSG-Net-DRIVE.pt
     freeze_layer: false,
 
   ### Augmentation Parameters

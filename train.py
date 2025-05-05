@@ -163,6 +163,7 @@ class Trainer_seg:
                 x_in = x_in.to(self.device)
                 target = target.long().to(self.device)
 
+                
                 output = model(x_in)
 
                 if isinstance(output, tuple) or isinstance(output, list):  # condition for Deep supervision
