@@ -211,7 +211,7 @@ class Trainer_seg:
 
                 output_argmax = torch.where(output > 0.5, 1, 0).cpu()
                 
-                print(f"SHAPE {output.shape}, {target.shape}")
+                # print(f"SHAPE {output.shape}, {target.shape}")
                 
                 # output_argmax = torch.where(output > 0.5, 1, 0).cpu()
                 target = target.cpu()
@@ -247,8 +247,8 @@ class Trainer_seg:
                 pred_mask = output_argmax[0, 0].numpy()
                 true_mask = target[0, 0].cpu().numpy()
 
-                print(f"[DEBUG] Batch {batch_idx} — pred unique:", np.unique(pred_mask))
-                print(f"[DEBUG] Batch {batch_idx} — label unique:", np.unique(true_mask))
+                # print(f"[DEBUG] Batch {batch_idx} — pred unique:", np.unique(pred_mask))
+                # print(f"[DEBUG] Batch {batch_idx} — label unique:", np.unique(true_mask))
 
                 # fig, axs = plt.subplots(1, 2, figsize=(10, 4))
                 # axs[0].imshow(pred_mask, cmap='gray')
