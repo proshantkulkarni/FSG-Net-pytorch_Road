@@ -286,8 +286,14 @@ class Image2ImageLoader_zero_pad(Dataset):
                 image = tf.perspective(image, start_p, end_p)
                 target = tf.perspective(target, start_p, end_p, interpolation=InterpolationMode.NEAREST)
 
+
+        image = utils.center_padding(image, [600, 600])
+        target = utils.center_padding(target, [600, 600])
+
         image_tensor = tf.to_tensor(image)
         target_tensor = torch.tensor(np.array(target))
+        
+        # Ensure final consistent shape for batching
 
         if self.args.input_space == 'GR':   # grey, red
             image_tensor_r = image_tensor[0].unsqueeze(0)
