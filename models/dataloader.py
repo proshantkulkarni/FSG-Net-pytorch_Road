@@ -308,9 +308,13 @@ class Image2ImageLoader_zero_pad(Dataset):
             #                             mean=self.image_mean,
             #                             std=self.image_std)
 
+        # if self.args.n_classes <= 2:  # for visualized binary GT
+        #     target_tensor[target_tensor < 128] = 0
+        #     target_tensor[target_tensor >= 128] = 1
+            
         if self.args.n_classes <= 2:  # for visualized binary GT
-            target_tensor[target_tensor < 128] = 0
-            target_tensor[target_tensor >= 128] = 1
+            target_tensor[target_tensor == 0] = 0
+            target_tensor[target_tensor > 0] = 1
         target_tensor = target_tensor.unsqueeze(0)    # expand 'grey channel' for loss function dependency
 
         return image_tensor, target_tensor
