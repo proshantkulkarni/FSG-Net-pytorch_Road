@@ -254,9 +254,16 @@ class Image2ImageLoader_zero_pad(Dataset):
                 target = tf.resize(target, [resize_h, resize_w], interpolation=InterpolationMode.NEAREST)
 
             if hasattr(self.args, 'transform_rand_crop'):
-                i, j, h, w = transforms.RandomCrop.get_params(image, output_size=(int(self.args.transform_rand_crop), int(self.args.transform_rand_crop)))
-                image = tf.crop(image, i, j, h, w)
-                target = tf.crop(target, i, j, h, w)
+                if image.height >= self.args.transform_rand_crop and image.width >= self.args.transform_rand_crop:
+                    i, j, h, w = transforms.RandomCrop.get_params(image, output_size=(self.args.transform_rand_crop, self.args.transform_rand_crop))
+                    image = tf.crop(image, i, j, h, w)
+                    target = tf.crop(target, i, j, h, w)
+                else:
+                    print(f"Skipping crop: image too small ({image.width}x{image.height})")
+
+                # i, j, h, w = transforms.RandomCrop.get_params(image, output_size=(int(self.args.transform_rand_crop), int(self.args.transform_rand_crop)))
+                # image = tf.crop(image, i, j, h, w)
+                # target = tf.crop(target, i, j, h, w)
 
             if (random_gen.random() < 0.5) and self.args.transform_hflip:
                 image = tf.hflip(image)
