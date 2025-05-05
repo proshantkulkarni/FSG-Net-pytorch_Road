@@ -120,6 +120,44 @@ class Trainer_seg:
                 self.scheduler.step()
 
             output_argmax = torch.where(output > 0.5, 1, 0).cpu()
+
+            debug_dir = os.path.join("debug_vis", f"epoch_{epoch}")
+            os.makedirs(debug_dir, exist_ok=True)
+
+            print(f"SHAPE {output.shape}, {target.shape}")
+                
+                # output_argmax = torch.where(output > 0.5, 1, 0).cpu()
+            target = target.cpu()
+            x_in = x_in.cpu()
+
+            # Save all images in the current batch
+            for i in range(x_in.shape[0]):
+                input_img = x_in[i, 0].numpy()      # [H, W]
+                true_mask = target[i, 0].numpy()
+                pred_mask = output_argmax[i, 0].numpy()
+
+                fig, axs = plt.subplots(1, 3, figsize=(15, 4))
+
+                axs[0].imshow(input_img, cmap='gray')
+                axs[0].set_title("Input Image")
+                axs[0].axis('off')
+
+                axs[1].imshow(true_mask, cmap='gray')
+                axs[1].set_title("Ground Truth")
+                axs[1].axis('off')
+
+                axs[2].imshow(pred_mask, cmap='gray')
+                axs[2].set_title("Predicted Mask")
+                axs[2].axis('off')
+
+                fig.tight_layout()
+
+                os.makedirs(debug_dir, exist_ok=True)
+                save_path = os.path.join(debug_dir, f"val_batch{batch_idx}_sample{i}.png")
+                plt.savefig(save_path)
+                plt.close()
+
+
             metric_result = metrics.metrics_np(output_argmax[:, 0], target.squeeze(0).detach().cpu().numpy(), b_auc=False)
             f1_list.append(metric_result['f1'])
             batch_losses.append(loss.item())
@@ -163,35 +201,46 @@ class Trainer_seg:
                 x_in = x_in.to(self.device)
                 target = target.long().to(self.device)
 
-                
+
                 output = model(x_in)
 
                 if isinstance(output, tuple) or isinstance(output, list):  # condition for Deep supervision
                     output = output[0]
 
                 output_argmax = torch.where(output > 0.5, 1, 0).cpu()
-                    # Save or view a few predictions
-                # if batch_idx < 3:
-                #     pred_mask = output_argmax[0, 0].numpy()
-                #     true_mask = target[0, 0].cpu().numpy()
+                
+                print(f"SHAPE {output.shape}, {target.shape}")
+                
+                # output_argmax = torch.where(output > 0.5, 1, 0).cpu()
+                target = target.cpu()
+                x_in = x_in.cpu()
 
-                #     # print(f"[DEBUG] Batch {batch_idx} — pred unique:", np.unique(pred_mask))
-                #     # print(f"[DEBUG] Batch {batch_idx} — label unique:", np.unique(true_mask))
+                # Save all images in the current batch
+                for i in range(x_in.shape[0]):
+                    input_img = x_in[i, 0].numpy()      # [H, W]
+                    true_mask = target[i, 0].numpy()
+                    pred_mask = output_argmax[i, 0].numpy()
 
-                #     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-                #     axs[0].imshow(pred_mask, cmap='gray')
-                #     axs[0].set_title("Predicted Mask")
-                #     axs[0].axis('off')
+                    fig, axs = plt.subplots(1, 3, figsize=(15, 4))
 
-                #     axs[1].imshow(true_mask, cmap='gray')
-                #     axs[1].set_title("Ground Truth")
-                #     axs[1].axis('off')
+                    axs[0].imshow(input_img, cmap='gray')
+                    axs[0].set_title("Input Image")
+                    axs[0].axis('off')
 
-                #     fig.tight_layout()
-                #     save_path = os.path.join(debug_dir, f"val_batch{batch_idx}.png")
-                #     plt.savefig(save_path)
-                #     plt.close()
+                    axs[1].imshow(true_mask, cmap='gray')
+                    axs[1].set_title("Ground Truth")
+                    axs[1].axis('off')
 
+                    axs[2].imshow(pred_mask, cmap='gray')
+                    axs[2].set_title("Predicted Mask")
+                    axs[2].axis('off')
+
+                    fig.tight_layout()
+
+                    os.makedirs(debug_dir, exist_ok=True)
+                    save_path = os.path.join(debug_dir, f"val_batch{batch_idx}_sample{i}.png")
+                    plt.savefig(save_path)
+                    plt.close()
                 
                 pred_mask = output_argmax[0, 0].numpy()
                 true_mask = target[0, 0].cpu().numpy()
@@ -199,19 +248,19 @@ class Trainer_seg:
                 # print(f"[DEBUG] Batch {batch_idx} — pred unique:", np.unique(pred_mask))
                 # print(f"[DEBUG] Batch {batch_idx} — label unique:", np.unique(true_mask))
 
-                fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-                axs[0].imshow(pred_mask, cmap='gray')
-                axs[0].set_title("Predicted Mask")
-                axs[0].axis('off')
+                # fig, axs = plt.subplots(1, 2, figsize=(10, 4))
+                # axs[0].imshow(pred_mask, cmap='gray')
+                # axs[0].set_title("Predicted Mask")
+                # axs[0].axis('off')
 
-                axs[1].imshow(true_mask, cmap='gray')
-                axs[1].set_title("Ground Truth")
-                axs[1].axis('off')
+                # axs[1].imshow(true_mask, cmap='gray')
+                # axs[1].set_title("Ground Truth")
+                # axs[1].axis('off')
 
-                fig.tight_layout()
-                save_path = os.path.join(debug_dir, f"val_batch{batch_idx}.png")
-                plt.savefig(save_path)
-                plt.close()
+                # fig.tight_layout()
+                # save_path = os.path.join(debug_dir, f"val_batch{batch_idx}.png")
+                # plt.savefig(save_path)
+                # plt.close()
 
 
                 metric_result = metrics.metrics_np(output_argmax[:, 0], target.squeeze(0).detach().cpu().numpy(), b_auc=False)
