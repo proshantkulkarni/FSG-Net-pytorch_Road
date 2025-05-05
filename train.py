@@ -126,7 +126,7 @@ class Trainer_seg:
             debug_dir = os.path.join("debug_vis", f"epoch_{epoch}")
             os.makedirs(debug_dir, exist_ok=True)
 
-            print(f"SHAPE {output.shape}, {target.shape}")
+            # print(f"SHAPE {output.shape}, {target.shape}")
                 
                 # output_argmax = torch.where(output > 0.5, 1, 0).cpu()
             target = target.cpu()
